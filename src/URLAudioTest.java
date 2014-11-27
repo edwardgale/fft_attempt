@@ -118,9 +118,9 @@ public class URLAudioTest {
 
     @Test
     public void testCreateSineWav() throws Exception {
-            WavGenerator wavGenerator = new WavGenerator();
-wavGenerator.generateTone();
-           System.out.println();
+        WavGenerator wavGenerator = new WavGenerator();
+        wavGenerator.generateTone();
+        System.out.println();
     }
 
     @Test
