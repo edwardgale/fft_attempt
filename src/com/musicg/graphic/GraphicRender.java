@@ -113,7 +113,7 @@ public class GraphicRender{
 	
 			// export image
 			try {
-				int dotPos = filename.lastIndexOf(".");
+				int dotPos = filename.lastIndexOf("");
 				String extension=filename.substring(dotPos + 1);
 				ImageIO.write(bufferedImage, extension,
 						new File(filename));
@@ -174,7 +174,7 @@ public class GraphicRender{
 			}
 					
 			try {
-				int dotPos = filename.lastIndexOf(".");
+				int dotPos = filename.lastIndexOf("");
 				String extension=filename.substring(dotPos + 1);
 				ImageIO.write(bufferedImage, extension, new File(filename));
 			} catch (IOException e) {
