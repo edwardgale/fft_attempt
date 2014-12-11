@@ -195,7 +195,7 @@ public class URLAudioTest {
 
         // apply windowing
         Windowing windowing = new Windowing();
-        windowing.setWindowType("Rectangle");
+        windowing.setWindowType("Hanning");
         windowedSignal = windowing.apply(signal);
 
         // plot windowed signal

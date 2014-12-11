@@ -9,20 +9,20 @@ import java.io.FileOutputStream;
  * Created by galee on 19/11/2014.
  */
 public class WavGenerator {
-    int maxVol=1220;
-    int intSR = 44100;
-    int intFPW = 512;
-    int wavelengths = 2;
+    int maxVol=127;
+    int sampleRate = 44100;
+    int seconds = 100;
+    int targetFreq = 4000;
+
 
     public void generateTone() throws LineUnavailableException {
         Clip clip = AudioSystem.getClip();
 
         boolean addHarmonic = true;
-        float sampleRate = (float) intSR;
 
         // oddly, the sound does not loop well for less than
         // around 5 or so, wavelengths
-        byte[] buf = new byte[intFPW * wavelengths + 1];
+        byte[] buf = new byte[seconds * targetFreq + 1];
         AudioFormat af = new AudioFormat(
                 sampleRate,
                 16,  // sample size in bits
@@ -31,10 +31,10 @@ public class WavGenerator {
                 false  // bigendian
         );
 
-        for (int i = 0; i < intFPW * wavelengths; i++) {
-            double angle = ((float) (i * 2) / ((float) intFPW)) * (Math.PI);
+        for (int i = 0; i < seconds * targetFreq; i++) {
+            double angle = ((float) (i * 2) / ((float) targetFreq)) * (Math.PI);
             buf[i] = getByteValue(angle);
-            System.out.println("Angle is " + angle + " byte is " + buf[i]);
+//            System.out.println("Angle is " + angle + " byte is " + buf[i]);
             if (addHarmonic) {
                 buf[(i) + 1] = getByteValue(2 * angle);
             } else {
@@ -49,7 +49,7 @@ public class WavGenerator {
                     af,
                     buf.length / 2);
 
-            String filename = "sin_"+intFPW+"-"+intSR+"_"+maxVol+"_"+wavelengths+".wav";
+            String filename = "sin_"+"-"+ this.sampleRate +"_"+maxVol+"_"+".wav";
             FileOutputStream fos = new FileOutputStream(filename);
             AudioFileWriter audioFileWriter = new WaveFileWriter();
             audioFileWriter.write(ais, AudioFileFormat.Type.WAVE, fos);
@@ -67,17 +67,10 @@ public class WavGenerator {
         this.maxVol = maxVol;
     }
 
-    public void setIntSR(int intSR) {
-        this.intSR = intSR;
+    public void setSampleRate(int sampleRate) {
+        this.sampleRate = sampleRate;
     }
 
-    public void setIntFPW(int intFPW) {
-        this.intFPW = intFPW;
-    }
-
-    public void setWavelengths(int wavelengths) {
-        this.wavelengths = wavelengths;
-    }
 
     /**
      * Provides the byte value for this point in the sinusoidal wave.
