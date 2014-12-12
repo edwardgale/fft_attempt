@@ -11,18 +11,18 @@ import java.io.FileOutputStream;
 public class WavGenerator {
     int maxVol=127;
     int sampleRate = 44100;
-    int seconds = 100;
-    int targetFreq = 4000;
+    int seconds = 1;
+    int targetFreq = 2000;
 
 
     public void generateTone() throws LineUnavailableException {
         Clip clip = AudioSystem.getClip();
 
-        boolean addHarmonic = true;
+        boolean addHarmonic = false;
 
         // oddly, the sound does not loop well for less than
         // around 5 or so, wavelengths
-        byte[] buf = new byte[seconds * targetFreq + 1];
+        byte[] buf = new byte[seconds * sampleRate + 1];
         AudioFormat af = new AudioFormat(
                 sampleRate,
                 16,  // sample size in bits
@@ -31,10 +31,13 @@ public class WavGenerator {
                 false  // bigendian
         );
 
-        for (int i = 0; i < seconds * targetFreq; i++) {
-            double angle = ((float) (i * 2) / ((float) targetFreq)) * (Math.PI);
+        int noOfWaves  = seconds * targetFreq;
+        System.out.println(" Number of waves is " + noOfWaves);
+
+        for (int i = 0; i < seconds * sampleRate; i++) {
+            double angle = ((float) (i * 2) / ((float) noOfWaves)) * (Math.PI);
             buf[i] = getByteValue(angle);
-//            System.out.println("Angle is " + angle + " byte is " + buf[i]);
+            System.out.println("I is " + i + " Angle is " + angle + " byte  is " + buf[i]);
             if (addHarmonic) {
                 buf[(i) + 1] = getByteValue(2 * angle);
             } else {
